@@ -26,10 +26,16 @@ public interface UsuarioRepository extends JpaRepository <Usuario, Long> {
     boolean existsByTelefono(String telefono);
 
 
+
     //Método recuperación de cuenta
     //Optional: Clase para representar un valor que puede o no ser nulo
     //findBy: busca y retorna el objeto
     Optional<Usuario> findByCorreo(String correo);
+
+    //id
+    Optional<Usuario> findById(Long idUsuario);
+
+
 
 
 

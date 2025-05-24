@@ -89,9 +89,12 @@ public class Usuario {
     private String username;
 
     //Contraseña
-    @NotBlank(message = "La contraseña no puede estar vacia")
-    @Size(min = 8, max = 30)
+    @jakarta.persistence.Transient
     private String password;
+
+    //Contraseña encriptada
+    @Column(nullable = false)
+    private String passwordHash;
 
 
     //Estado

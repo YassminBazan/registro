@@ -63,12 +63,12 @@
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 
-	<!--Dependencia de Spring Security
+	<!--Dependencia de Spring Security-->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		-->
+		
 
 
 

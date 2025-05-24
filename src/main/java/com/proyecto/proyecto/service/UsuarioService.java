@@ -1,7 +1,10 @@
 package com.proyecto.proyecto.service;
 
 import java.util.Collections;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.proyecto.model.Rol;
@@ -13,6 +16,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
     
+    //@Autowired inyecta dependencias automaticamente 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -51,7 +55,37 @@ public class UsuarioService {
         //Método que registra la fecha de registro y el estado por defecto
         usuario.crearCuenta();
 
+        //Encriptacion de contraseña
+            String hash = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt());
+            usuario.setPasswordHash(hash);
+
+
         //Guarda el usuario en la base de datos con el save
         return usuarioRepository.save(usuario);
+    }
+
+    //Método para buscar por correo
+    public Optional<Usuario> buscarPorCorreo(String correo){
+        return usuarioRepository.findByCorreo(correo);
+    }
+
+    //Método para actualizar contraseña
+    public boolean actualizarPassword(Long id, String nuevaPassword){
+        try {
+            Optional<Usuario> opt = usuarioRepository.findById(id);
+            if(opt.isPresent()){
+                Usuario u = opt.get();
+                u.setPasswordHash(nuevaPassword);
+                usuarioRepository.save(u);
+                return true;
+            }
+            return false;
+            
+        } catch (Exception e) {
+            System.out.println("Error al actualizar usuario");
+            e.printStackTrace();
+            return false;
+        }
+   
     }
 }
